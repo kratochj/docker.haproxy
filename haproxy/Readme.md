@@ -28,7 +28,7 @@ Here is a basic example of a `docker-compose.yml` file using the `kratochj/hapro
     version: "3"
     services:
       haproxy:
-        image: eeacms/haproxy
+        image: kratochj/haproxy
         depends_on:
         - webapp
         ports:
