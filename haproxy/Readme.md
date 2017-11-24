@@ -7,29 +7,10 @@ your non-related EEA projects.
  - HAProxy: **1.7**
  - Expose: **5000**
 
-### Supported tags and respective Dockerfile links
-
-  - `:latest` [*Dockerfile*](https://github.com/eea/eea.docker.haproxy/blob/master/haproxy/Dockerfile) - Debian: **Jessie**, HAProxy: **1.7**
-
-### Stable and immutable tags
-
-  - `:1.7-4.0` [*Dockerfile*](https://github.com/eea/eea.docker.haproxy/tree/1.7-4.0/haproxy/Dockerfile) - HAProxy: **1.7** Release: **4.0**
-
-See [older versions](https://github.com/eea/eea.docker.haproxy/releases)
-
-
-### Changes
-
- - [CHANGELOG.md](https://github.com/eea/eea.docker.haproxy/blob/master/CHANGELOG.md)
 
 ### Base docker image
 
  - [hub.docker.com](https://hub.docker.com/r/eeacms/haproxy)
-
-
-### Source code
-
-  - [github.com](http://github.com/eea/eea.docker.haproxy)
 
 
 ### Installation
@@ -42,9 +23,9 @@ See [older versions](https://github.com/eea/eea.docker.haproxy/releases)
 
 ### Run with Docker Compose
 
-Here is a basic example of a `docker-compose.yml` file using the `eeacms/haproxy` docker image:
+Here is a basic example of a `docker-compose.yml` file using the `kratochj/haproxy` docker image:
 
-    version: "2"
+    version: "3"
     services:
       haproxy:
         image: eeacms/haproxy
@@ -59,7 +40,7 @@ Here is a basic example of a `docker-compose.yml` file using the `eeacms/haproxy
           LOG_LEVEL: "info"
 
       webapp:
-        image: eeacms/hello
+        image: kratochj/hello
 
 
 The application can be scaled to use more server instances, with `docker-compose scale`:
@@ -79,7 +60,7 @@ minimum possible `DNS_TTL`.
 
 ### Run with backends specified as environment variable
 
-    $ docker run --env BACKENDS="192.168.1.5:80 192.168.1.6:80" eeacms/haproxy
+    $ docker run --env BACKENDS="192.168.1.5:80 192.168.1.6:80" kratochj/haproxy
 
 Using the `BACKENDS` variable is a way to quick-start the container.
 The servers are written as `server_ip:server_listening_port`,
@@ -91,12 +72,12 @@ If there are multiple DNS records for one or more of your `BACKENDS` (e.g. when 
 you can use `DNS_ENABLED` environment variable. This way, haproxy will load-balance
 all of your backends instead of only the first entry found:
 
-  $ docker run --link=webapp -e BACKENDS="webapp" -e DNS_ENABLED=true eeacms/haproxy
+  $ docker run --link=webapp -e BACKENDS="webapp" -e DNS_ENABLED=true kratochj/haproxy
 
 
 ### Use a custom configuration file mounted as a volume
 
-    $ docker run -v conf.d/haproxy.cfg:/etc/haproxy/haproxy.cfg eeacms/haproxy:latest
+    $ docker run -v conf.d/haproxy.cfg:/etc/haproxy/haproxy.cfg kratochj/haproxy:latest
 
 
 If you edit `haproxy.cfg` you can reload it without having to restart the container:
@@ -108,7 +89,7 @@ If you edit `haproxy.cfg` you can reload it without having to restart the contai
 
 Additionally, you can supply your own static `haproxy.cfg` file by extending the image
 
-    FROM eeacms/haproxy:latest
+    FROM kratochj/haproxy:latest
     COPY conf.d/haproxy.cfg /etc/haproxy/haproxy.cfg
 
     RUN apt-get install...
@@ -157,11 +138,11 @@ By default the logs from haproxy are present in the docker log, by using the rsy
 
 You can change the logging level by providing the `LOG_LEVEL` environment variable:
 
-    docker run -e LOG_LEVEL=info  ... eeacms/haproxy
+    docker run -e LOG_LEVEL=info  ... kratochj/haproxy
 
 You can override the log output by providing the `LOGGING` environment variable:
 
-    docker run -e LOGGING=logs.example.com:5005 ... eeacms/haproxy
+    docker run -e LOGGING=logs.example.com:5005 ... kratochj/haproxy
 
 Now make sure that `logs.example.com` listen on UDP port `5005`
 
@@ -175,8 +156,3 @@ you can redistribute it and/or modify it under the terms of the GNU
 General Public License as published by the Free Software Foundation;
 either version 2 of the License, or (at your option) any later
 version.
-
-
-## Funding
-
-[European Environment Agency (EU)](http://eea.europa.eu)
